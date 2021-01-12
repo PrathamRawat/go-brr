@@ -1,3 +1,3 @@
-import news_data
-import stock_data
+import src.util.google_trends as gt
 
+gt.store_historical_trends()
