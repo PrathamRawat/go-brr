@@ -1,6 +1,7 @@
 from pytrends.request import TrendReq
-import pandas
+import pandas as pd
 import datetime
+import time
 
 # List of keywords to search trends for
 TRENDS = [
@@ -110,11 +111,12 @@ def store_historical_trends():
         data.to_csv("csv/" + trend + ".csv")
 
 
-# def normalize_downloaded_data():
-#     for trend in TRENDS:
-#         file = open("csv/{}.csv".format(trend), "r")
-#         data = file.read()
-#         dataframe = pandas.read_csv(data)
-#         for value in dataframe:
-
+def normalize_data(filename):
+    data = open("csv/{}.csv".format(filename))
+    dataframe = pd.read_csv(data)
+    data.close()
+    dataframe = dataframe.drop('isPartial', axis=1)
+    dataframe = dataframe.apply(lambda x: [int(time.mktime(datetime.datetime.strptime(x['date'], "%Y-%m-%d %H:%M:%S").timetuple())), x['stimulus']], axis=1, result_type='broadcast')
+    dataframe['change'] = dataframe['stimulus'].pct_change()
+    return dataframe
 
