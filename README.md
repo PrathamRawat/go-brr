@@ -1,1 +1,1 @@
-# go-brr
+# money-printer
