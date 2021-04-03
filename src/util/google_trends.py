@@ -60,7 +60,6 @@ TRENDS = [
     "economy",
     "earnings",
     "investment banking",
-    "dividends",
     "treasury",
     "venture capital",
     "jobs",
