@@ -116,7 +116,14 @@ def normalize_data(filename):
     dataframe = pd.read_csv(data)
     data.close()
     dataframe = dataframe.drop('isPartial', axis=1)
-    dataframe = dataframe.apply(lambda x: [int(time.mktime(datetime.datetime.strptime(x['date'], "%Y-%m-%d %H:%M:%S").timetuple())), x['stimulus']], axis=1, result_type='broadcast')
-    dataframe['change'] = dataframe['stimulus'].pct_change()
+    dataframe = dataframe.apply(lambda x: [int(time.mktime(datetime.datetime.strptime(x['date'], "%Y-%m-%d %H:%M:%S").timetuple())), x['trend']], axis=1, result_type='broadcast')
+    dataframe['change'] = dataframe['trend'].pct_change()
     return dataframe
 
+
+def get_training_dataframes():
+    output = dict()
+    for trend in TRENDS:
+        print("Normalizing {}".format(trend))
+        output['trend'] = normalize_data(trend)
+    return output
